@@ -249,7 +249,6 @@ verify_env_url
 echo yes | npm run eject
 
 # ...but still link to the local packages
-npm link "$root_path"/packages/babel-preset-react-app
 npm link "$root_path"/packages/eslint-config-react-app
 npm link "$root_path"/packages/react-dev-utils
 npm link "$root_path"/packages/accurapp-scripts

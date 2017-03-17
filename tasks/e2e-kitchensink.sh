@@ -119,9 +119,6 @@ create_react_app --scripts-version="$scripts_path" --internal-testing-template="
 # Enter the app directory
 cd test-kitchensink
 
-# Link to our preset
-npm link "$root_path"/packages/babel-preset-react-app
-
 # Test the build
 REACT_APP_SHELL_ENV_MESSAGE=fromtheshell \
   NODE_PATH=src \
@@ -171,14 +168,10 @@ E2E_FILE=./build/index.html \
 # Finally, let's check that everything still works after ejecting.
 # ******************************************************************************
 
-# Unlink our preset
-npm unlink "$root_path"/packages/babel-preset-react-app
-
 # Eject...
 echo yes | npm run eject
 
 # ...but still link to the local packages
-npm link "$root_path"/packages/babel-preset-react-app
 npm link "$root_path"/packages/eslint-config-react-app
 npm link "$root_path"/packages/react-dev-utils
 npm link "$root_path"/packages/accurapp-scripts
