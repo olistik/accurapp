@@ -23,7 +23,7 @@ function cleanup {
   echo 'Cleaning up.'
   cd "$root_path"
   # Uncomment when snapshot testing is enabled by default:
-  # rm ./packages/react-scripts/template/src/__snapshots__/App.test.js.snap
+  # rm ./packages/accurapp-scripts/template/src/__snapshots__/App.test.js.snap
   rm -rf "$temp_cli_path" $temp_app_path
 }
 
@@ -42,7 +42,7 @@ function handle_exit {
 }
 
 function create_react_app {
-  node "$temp_cli_path"/node_modules/create-react-app/index.js "$@"
+  node "$temp_cli_path"/node_modules/create-accurapp/index.js "$@"
 }
 
 # Check for the existence of one or more files.
@@ -71,8 +71,8 @@ grep -v "lerna bootstrap" package.json > temp && mv temp package.json
 npm install
 mv package.json.bak package.json
 
-# We need to install create-react-app deps to test it
-cd "$root_path"/packages/create-react-app
+# We need to install create-accurapp deps to test it
+cd "$root_path"/packages/create-accurapp
 npm install
 cd "$root_path"
 
@@ -80,7 +80,7 @@ cd "$root_path"
 if [[ `node --version | sed -e 's/^v//' -e 's/\..*//g'` -lt 4 ]]
 then
   cd $temp_app_path
-  err_output=`node "$root_path"/packages/create-react-app/index.js test-node-version 2>&1 > /dev/null || echo ''`
+  err_output=`node "$root_path"/packages/create-accurapp/index.js test-node-version 2>&1 > /dev/null || echo ''`
   [[ $err_output =~ You\ are\ running\ Node ]] && exit 0 || exit 1
 fi
 
@@ -100,7 +100,7 @@ fi
 ./node_modules/.bin/eslint --max-warnings 0 .
 
 # ******************************************************************************
-# First, test the create-react-app development environment.
+# First, test the create-accurapp development environment.
 # This does not affect our users but makes sure we can develop it.
 # ******************************************************************************
 
@@ -122,15 +122,15 @@ CI=true npm test
 npm start -- --smoke-test
 
 # ******************************************************************************
-# Next, pack react-scripts and create-react-app so we can verify they work.
+# Next, pack accurapp-scripts and create-accurapp so we can verify they work.
 # ******************************************************************************
 
 # Pack CLI
-cd "$root_path"/packages/create-react-app
+cd "$root_path"/packages/create-accurapp
 cli_path=$PWD/`npm pack`
 
-# Go to react-scripts
-cd "$root_path"/packages/react-scripts
+# Go to accurapp-scripts
+cd "$root_path"/packages/accurapp-scripts
 
 # Save package.json because we're going to touch it
 cp package.json package.json.orig
@@ -139,8 +139,8 @@ cp package.json package.json.orig
 # of those packages.
 node "$root_path"/tasks/replace-own-deps.js
 
-# Finally, pack react-scripts
-scripts_path="$root_path"/packages/react-scripts/`npm pack`
+# Finally, pack accurapp-scripts
+scripts_path="$root_path"/packages/accurapp-scripts/`npm pack`
 
 # Restore package.json
 rm package.json
@@ -165,7 +165,7 @@ cd $temp_app_path
 create_react_app --scripts-version="$scripts_path" test-app
 
 # ******************************************************************************
-# Now that we used create-react-app to create an app depending on react-scripts,
+# Now that we used create-accurapp to create an app depending on accurapp-scripts,
 # let's make sure all npm scripts are in the working state.
 # ******************************************************************************
 
@@ -252,7 +252,7 @@ echo yes | npm run eject
 npm link "$root_path"/packages/babel-preset-react-app
 npm link "$root_path"/packages/eslint-config-react-app
 npm link "$root_path"/packages/react-dev-utils
-npm link "$root_path"/packages/react-scripts
+npm link "$root_path"/packages/accurapp-scripts
 
 # Test the build
 npm run build

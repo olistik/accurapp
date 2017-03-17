@@ -272,7 +272,7 @@ function run(root, appName, version, verbose, originalDirectory, template) {
 }
 
 function getInstallPackage(version) {
-  let packageToInstall = 'react-scripts';
+  let packageToInstall = 'accurapp-scripts';
   const validSemver = semver.valid(version);
   if (validSemver) {
     packageToInstall += `@${validSemver}`;
@@ -427,7 +427,7 @@ function checkAppName(appName) {
 
   // TODO: there should be a single place that holds the dependencies
   const dependencies = ['react', 'react-dom'];
-  const devDependencies = ['react-scripts'];
+  const devDependencies = ['accurapp-scripts'];
   const allDependencies = dependencies.concat(devDependencies).sort();
   if (allDependencies.indexOf(appName) >= 0) {
     console.error(

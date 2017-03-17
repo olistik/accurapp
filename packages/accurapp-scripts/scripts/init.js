@@ -43,10 +43,10 @@ module.exports = function(
 
   // Setup the script rules
   appPackage.scripts = {
-    start: 'react-scripts start',
-    build: 'react-scripts build',
-    test: 'react-scripts test --env=jsdom',
-    eject: 'react-scripts eject',
+    start: 'accurapp-scripts start',
+    build: 'accurapp-scripts build',
+    test: 'accurapp-scripts test --env=jsdom',
+    eject: 'accurapp-scripts eject',
   };
 
   fs.writeFileSync(
