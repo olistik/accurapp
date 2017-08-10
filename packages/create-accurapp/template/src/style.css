@@ -1,0 +1,10 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+.user-select-none {
+  user-select: none;
+}
+.transition {
+  transition: all 0.3s ease;
+}

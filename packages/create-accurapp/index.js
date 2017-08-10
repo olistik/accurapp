@@ -12,6 +12,7 @@ const dependencies = [
   'react-dom',
   'd3',
   'lodash',
+  'tachyons',
 ]
 
 const devDependencies = [
