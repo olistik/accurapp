@@ -37,15 +37,20 @@ const babelrc = require('./babelrc')(browsers)
 
 function accuPreset(config = []) {
   return createConfig([
-    entryPoint([
-      // Include all polyfills we can, to prevent cross-browser bugs.
-      'babel-polyfill',
+    entryPoint({
+      // The node_modules, others get picked up by the CommonsChunkPlugin.
+      vendor: [
+        // Include all polyfills we can, to prevent cross-browser bugs.
+        'babel-polyfill',
+      ],
       // Your app's code.
-      './src/index.js',
-    ]),
+      app: './src/index.js',
+    }),
     setOutput({
       path: path.resolve('./build'),
-      filename: 'app.js',
+      filename: '[name].js',
+      // TODO use chunkhash like this maybe only in production?
+      // filename: '[name].[chunkhash:8].js',
       publicPath: '/',
     }),
 
@@ -80,6 +85,12 @@ function accuPreset(config = []) {
       // Concatenate the scope of all module in a single closure,
       // so the compiled code is a bit smaller and gets executed a bit faster
       new webpack.optimize.ModuleConcatenationPlugin(),
+      // We separate the bundle so we don't have to parse again
+      // the node_modules each time we change a file in development.
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendor',
+        minChunks: module => module.context && module.context.includes('node_modules'),
+      }),
     ]),
 
     //
